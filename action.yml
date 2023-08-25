@@ -5,6 +5,9 @@ inputs:
   target-slug:
     required: false
     description: 'The slug of the target CirrusCI project. For example, "github/<org>/<project>". Will default to the current project. Can be overwritten with "TARGET_SLUG" environment variable.'
+  target-branch:
+    required: false
+    description: 'The branch of the target CirrusCI project. Will default to the current branch name. This should be overwritten if "target-slug" is set. Can be overwritten with "TARGET_BRANCH" environment variable.'
 runs:
   using: node16
   main: dist/main/index.js
