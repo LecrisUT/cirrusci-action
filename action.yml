@@ -1,0 +1,10 @@
+name: Cirrus-CI Action
+description: Trigger and wait for Cirrus-CI build
+author: Cristian Le
+inputs:
+  target-slug:
+    required: false
+    description: 'The slug of the target CirrusCI project. For example, "github/<org>/<project>". Will default to the current project. Can be overwritten with "TARGET_SLUG" environment variable.'
+runs:
+  using: node16
+  main: dist/main/index.js

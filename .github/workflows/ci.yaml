@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [ main ]
+
+permissions:
+  security-events: write
+  contents: write
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-dist:
+    uses: ./.github/workflows/step_check-dist.yaml
+    permissions:
+      contents: read
+
+  tests:
+    uses: ./.github/workflows/step_test.yaml
+    needs: [ check-dist ]
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    permissions:
+      contents: read
+
+  code-analysis:
+    uses: ./.github/workflows/step_code-analysis.yaml
+    needs: [ tests ]
+    secrets:
+      QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+    permissions:
+      security-events: write
+      contents: write
+      checks: write
+      pull-requests: write
